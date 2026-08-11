@@ -13,7 +13,7 @@ pipeline {
                 echo "Building..."
                 sh '''
                     cd myapp
-                    apt install python-fire:lts
+                    apt install python-fire
                 '''
             }
         }
