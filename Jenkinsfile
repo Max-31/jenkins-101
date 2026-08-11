@@ -2,8 +2,8 @@ pipeline {
     agent { 
         node {
             label 'docker-agent-python'
-            }
-      }
+        }
+    }
     triggers {
         pollSCM '* * * * *'
     }
@@ -13,7 +13,14 @@ pipeline {
                 echo "Building..."
                 sh '''
                     cd myapp
-                    apt install python-fire
+                    
+                    # Create a virtual environment named 'venv'
+                    python3 -m venv venv
+                    
+                    # Activate it and install the python 'fire' package
+                    . venv/bin/activate
+                    
+                    pip install fire
                 '''
             }
         }
@@ -22,6 +29,10 @@ pipeline {
                 echo "Testing..."
                 sh '''
                     cd myapp
+                    
+                    # Activate the same virtual environment before testing
+                    . venv/bin/activate
+                    
                     python3 hello.py
                     python3 hello.py --name=Brad
                 '''
